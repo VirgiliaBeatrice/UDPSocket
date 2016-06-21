@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Message comfirmMsg = Message.obtain();
+
+
 //        broadcastReceiver = new BroadcastReceiver() {
 //            @Override
 //            public void onReceive(Context context, Intent intent) {
@@ -53,11 +57,12 @@ public class MainActivity extends AppCompatActivity {
 //        int savedSendingInterval = preferences.getInt("Sending Interval", 1000);
 //        etSendingInterval.setText(savedSendingInterval);
 
-        Button btRemoteIP = (Button) findViewById(R.id.btRemoteIP);
-        Button btRemotePort = (Button) findViewById(R.id.btRemotePort);
+//        Button btRemoteIP = (Button) findViewById(R.id.btRemoteIP);
+//        Button btRemotePort = (Button) findViewById(R.id.btRemotePort);
+        Button btRemoteIPandPort = (Button) findViewById(R.id.btRemoteIPandPort);
         Button btSendingInterval = (Button) findViewById(R.id.btSendingInterval);
 
-        btRemoteIP.setOnClickListener(new View.OnClickListener() {
+/*        btRemoteIP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 InetAddress tempRemoteIP;
@@ -82,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
                 editor.apply();
                 System.out.println(remoteIP.toString());
             }
-        });
+        });*/
 
-        btRemotePort.setOnClickListener(new View.OnClickListener() {
+/*        btRemotePort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText etRemotePort = (EditText) findViewById(R.id.etRemotePort);
@@ -101,6 +106,45 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putInt("Remote Port", remotePort);
 //                editor.
+                editor.apply();
+                System.out.println(String.valueOf(remotePort));
+            }
+        });*/
+
+        btRemoteIPandPort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InetAddress tempRemoteIP;
+                EditText etRemoteIP = (EditText) findViewById(R.id.etRemoteIP);
+                EditText etRemotePort = (EditText) findViewById(R.id.etRemotePort);
+
+                try
+                {
+                    tempRemoteIP = InetAddress.getByName(etRemoteIP.getText().toString());
+                } catch (UnknownHostException e)
+                {
+                    e.printStackTrace();
+                    etRemoteIP.setText("0.0.0.0");
+                    System.out.println("Illegal input.");
+                    return;
+                }
+
+                remoteIP = tempRemoteIP;
+                SharedPreferences preferences = getSharedPreferences(getPackageName() + "_preferences", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("Remote IP", remoteIP.toString().substring(1));
+                editor.apply();
+                System.out.println(remoteIP.toString());
+
+                if (Integer.parseInt(etRemotePort.getText().toString()) > 65535)
+                {
+                    etRemotePort.setText("1000");
+                    System.out.println("Illegal input.");
+                    return;
+                }
+
+                remotePort = Integer.parseInt(etRemotePort.getText().toString());
+                editor.putInt("Remote Port", remotePort);
                 editor.apply();
                 System.out.println(String.valueOf(remotePort));
             }

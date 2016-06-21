@@ -70,7 +70,8 @@
                 android:layout_weight="1"
                 android:lines="1"
                 android:digits="0123456789."
-                android:textAlignment="textEnd"/>
+                android:textAlignment="textEnd"
+                android:text="192.168.91.69"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -78,7 +79,8 @@
                 android:text="ENTER"
                 android:id="@+id/btRemoteIP"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="10dp"
+                android:visibility="invisible"/>
 
         </LinearLayout>
 
@@ -105,13 +107,14 @@
                 android:layout_weight="1"
                 android:inputType="number"
                 android:lines="1"
-                android:textAlignment="textEnd"/>
+                android:textAlignment="textEnd"
+                android:text="3333"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ENTER"
-                android:id="@+id/btRemotePort"
+                android:id="@+id/btRemoteIPandPort"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp" />
         </LinearLayout>
